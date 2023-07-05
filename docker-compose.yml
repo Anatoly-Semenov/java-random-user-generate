@@ -1,6 +1,6 @@
 version: "3"
 services:
-  dogs_db:
+  users_db:
     container_name: random_users_db
     build:
       context: .
