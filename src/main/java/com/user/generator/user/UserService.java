@@ -1,46 +1,46 @@
 package com.user.generator.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-    private final User user1 = new User(
-            1L,
-            "John",
-            "Cena",
-            LocalDate.of(1990, Month.JANUARY, 1),
-            21
-    );
-    private final User user2 = new User(
-            2L,
-            "John",
-            "Cena",
-            LocalDate.of(1990, Month.JANUARY, 1),
-            21
-    );
-    private final User user3 = new User(
-            3L,
-            "John",
-            "Cena",
-            LocalDate.of(1990, Month.JANUARY, 1),
-            21
-    );
+    private final UserRepository userRepository;
 
-    private final List<User> users = List.of(user1, user2, user3);
-
-    public List<User> getUsers() {
-
-        return this.users;
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User getUser(Long id) {
-        return this.users.stream()
-                .filter(user -> id.equals(user.getId()))
-                .findAny()
-                .orElse(null);
+    public List<User> getUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public Optional<User> getUserDetail(Long id) {
+        boolean isExist = this.userRepository.existsById(id);
+
+        if(!isExist) {
+            throw new IllegalStateException("User with id: " + id + ", is not exist");
+        }
+
+        return this.userRepository.findById(id);
+    }
+
+    public User createUser(User newUser) {
+        return this.userRepository.save(newUser);
+    }
+
+    public String deleteUserById(Long id) {
+        boolean isExist = this.userRepository.existsById(id);
+
+        if (!isExist) {
+            throw new IllegalStateException("User with id: " + id + " is not exist");
+        }
+
+        this.userRepository.deleteById(id);
+        return "User with id: " + id + " successful deleted";
     }
 }
