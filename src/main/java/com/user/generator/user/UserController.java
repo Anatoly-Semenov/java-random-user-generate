@@ -26,6 +26,11 @@ public class UserController {
         return this.userService.getUserDetail(id);
     }
 
+    @GetMapping(path = "generate")
+    public Optional<User> generateRandomUser() {
+        return this.userService.generateRandomUser();
+    }
+
     @PostMapping
     public User createUser(@RequestBody User newUser) {
         return this.userService.createUser(newUser);

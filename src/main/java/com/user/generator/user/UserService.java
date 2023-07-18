@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserService {
@@ -42,5 +43,14 @@ public class UserService {
 
         this.userRepository.deleteById(id);
         return "User with id: " + id + " successful deleted";
+    }
+
+    public Optional<User> generateRandomUser() {
+        Random random = new Random();
+
+        int usersCount = (int)this.userRepository.count();
+        long userId = random.nextInt(usersCount);
+
+        return this.getUserDetail(userId);
     }
 }
