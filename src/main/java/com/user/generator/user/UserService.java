@@ -46,10 +46,12 @@ public class UserService {
     }
 
     public Optional<User> generateRandomUser() {
-        Random random = new Random();
-
         int usersCount = (int)this.userRepository.count();
-        long userId = random.nextInt(usersCount);
+
+        int min = 1;
+        int max = usersCount;
+
+        long userId = (int)(Math.random() * (max - min + 1) + min);
 
         return this.getUserDetail(userId);
     }

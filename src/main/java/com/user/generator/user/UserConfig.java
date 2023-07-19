@@ -4,6 +4,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class UserConfig {
     @Bean
@@ -13,6 +15,10 @@ public class UserConfig {
          User user2 = new User("Amber", "Carlson", "12.12.1990", 33, User.Sex.FEMALE, "https://randomuser.me/api/portraits/women/31.jpg");
          User user3 = new User("Jackie", "Welch", "05.03.1997", 33, User.Sex.MALE, "https://randomuser.me/api/portraits/men/30.jpg");
          User user4 = new User("Donald", "Welch", "12.12.1990", 33, User.Sex.MALE, "https://randomuser.me/api/portraits/men/5.jpg");
+
+         List<User> users = List.of(user1, user2, user3, user4);
+
+         userRepository.saveAll(users);
         };
     }
 }
